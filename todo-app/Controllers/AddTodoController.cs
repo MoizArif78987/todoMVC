@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using todo_app.Models;
 
-namespace YourNamespace.Controllers
+namespace todo_app.Controllers
 {
     public class AddTodoController : Controller
     {

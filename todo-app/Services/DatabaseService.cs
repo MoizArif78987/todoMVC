@@ -7,6 +7,8 @@ public interface ITodoService
     Task<Todo> GetTodoByIdAsync(int id);
     Task AddTodoAsync(Todo todo);
     Task DeleteTodoAsync(int id);
+    Task CompleteAsync();
+    Task Dispose();
 }
 
 public class TodoService : ITodoService
@@ -33,7 +35,7 @@ public class TodoService : ITodoService
     public async Task AddTodoAsync(Todo todo)
     {
         await _context.Todos.AddAsync(todo);
-        await _context.SaveChangesAsync();
+        await CompleteAsync();
     }
 
     public async Task DeleteTodoAsync(int id)
@@ -42,7 +44,17 @@ public class TodoService : ITodoService
         if (todo != null)
         {
             _context.Todos.Remove(todo);
-            await _context.SaveChangesAsync();
+            await CompleteAsync();
         }
+    }
+
+    public async Task CompleteAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task Dispose()
+    {
+        _context.Dispose();
     }
 }
