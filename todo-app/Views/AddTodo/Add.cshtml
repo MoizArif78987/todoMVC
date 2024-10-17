@@ -1,0 +1,12 @@
+﻿@model Todo
+
+<h1>Add New ToDo</h1>
+<form asp-action="Add" method="post">
+    <input type="text" name="Title" placeholder="Enter ToDo Title" required /> <br />
+    <input type="text" name="Description" placeholder="Enter ToDo Description" required /> <br />
+    <input type="checkbox" name="IsCompleted" value="true" checked /> Is Completed <br />
+    <button type="submit">Add ToDo</button>
+</form>
+
+
+<a asp-action="Index">View Todos</a>

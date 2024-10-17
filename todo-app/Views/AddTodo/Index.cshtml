@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Todo> 
+<h1>Your Todos</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Is Completed</th>
+            @if(User.IsInRole("Admin"))
+            {
+                <th>Delete</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            foreach (var todo in Model)
+            {
+                <tr>
+                    <td>@todo.Title</td>
+                    <td>@todo.Description</td>
+                    <td>
+                        <input type="checkbox" disabled @(todo.IsCompleted ? "checked" : "") />
+                    </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            <form asp-action="Delete" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@todo.Id" />
+                                <button type="submit" style="background-color:red; color:white; border:transparent; border-radius:5px">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    }
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3">No todos available.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Add">Add New Todo</a>
