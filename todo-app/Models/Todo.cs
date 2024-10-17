@@ -30,5 +30,30 @@ namespace todo_app.Models
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 32)));
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Todo>()
+                .HasKey(t => t.Id);
+
+            modelBuilder.Entity<Todo>()
+                .Property(t => t.Title)
+                .IsRequired();
+
+            modelBuilder.Entity<Todo>()
+                .Property(t => t.Description)
+                .IsRequired();
+
+            modelBuilder.Entity<Todo>()
+                .Property(t => t.IsCompleted)
+                .IsRequired();
+
+            modelBuilder.Entity<Todo>()
+                .HasOne(t => t.User)
+                .WithMany()
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }
